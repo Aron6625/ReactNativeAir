@@ -1,6 +1,1 @@
-export interface category{
-    id: number;
-    name: string;
-    icon: string;
-    color: string;
-}
+export * from './category.type';
