@@ -12,7 +12,7 @@ const HomeScreen = () => {
   return (
       <View style={styles.container}>
         <View style={styles.categoryContainer}>
-            <TextComponent size='18' textAlign='left'>Categorias</TextComponent>
+            <TextComponent size='18' textAlign='left' style={{ paddingLeft: 10 }}  >Categorias</TextComponent>
             <ScrollView 
                 horizontal 
                 showsHorizontalScrollIndicator={false} 

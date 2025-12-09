@@ -41,7 +41,7 @@ const Style = StyleSheet.create({
         gap: 5,
     },
     image: {
-        width: 100,
+        width: '100%',
         height: 145.92,
         borderRadius: 24,
         alignContent: 'center',
