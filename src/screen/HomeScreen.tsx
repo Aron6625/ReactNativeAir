@@ -1,14 +1,26 @@
 import { View, Text,ScrollView, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
-import React from 'react'
-import ButtonComponent from '../components/ButtonComponent'
+import React, { use, useEffect } from 'react'
 import CategoryButton from '../components/CategoryButton'
 import TextComponent from '../components/TextComponent'
 import { categories } from '../assets/data/categories'
 import { movies } from '../assets/data/movies'
 import MovieCard from '../components/MovieCard'
+import { useAppDispatch, useAppSelector } from '../hooks/redux.hook'
+import { getCategoriesService } from '../store/slices/categories'
 
 const HomeScreen = () => {
-    const [categoryActive, setCategoryActive] = React.useState<any>(null);
+  const dispatch = useAppDispatch();
+  const { category } = useAppSelector(state => state.category);
+  const [categoryActive, setCategoryActive] = React.useState<any>(null);
+  console.log("Categorias desde RED UX:", category);
+  useEffect(()=> {
+    // getCategoriesService();
+    dispatch(getCategoriesService());
+  }, []);
+//   useEffect(() => {
+//     console.log("Categorias desde REDUX:", category);
+//   }, [category]);
+
   return (
       <View style={styles.container}>
         <View style={styles.categoryContainer}>
@@ -43,7 +55,7 @@ const HomeScreen = () => {
                     ))}
                 </View>
             </ScrollView>   
-        {/* </TouchableOpacity> */}
+        {/* </TouchableOpacity> */} 
       </View>
 
   )

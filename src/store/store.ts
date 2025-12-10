@@ -1,16 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 import CategoryReducer from './slices/categories/category.slice';
-// import EventReducer from './slices/events/event.slice';
+import EventReducer from './slices/events/event.slice';
 
-export const Store = configureStore({
+export const store = configureStore({
   reducer: {
-    // events: EventReducer,
+    events: EventReducer,
     category: CategoryReducer
   },
-  // middleware: (getDefaultMidleware)=> getDefaultMidleware({
-  //   serializableCheck: false,
-  // }),
+  middleware: (getDefaultMidleware)=> getDefaultMidleware({
+    serializableCheck: false,
+  }),
 });
 
-export type RootState = ReturnType<typeof Store.getState>
-export type AppDispatch = typeof Store.dispatch
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch

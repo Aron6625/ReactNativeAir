@@ -1,5 +1,7 @@
+import { set } from "react-hook-form";
 import { ICategory } from "../../../types/category.type";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
+import { categories } from "../../../assets/data/categories";
 
 type EventsSliceState = {
     category: ICategory[]
@@ -31,3 +33,4 @@ export const categoryActions = categorySlice.actions;
 
 // export const CategoryReducer = categorySlice.reducer;
 export default categorySlice.reducer;
+
