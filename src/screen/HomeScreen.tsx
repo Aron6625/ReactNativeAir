@@ -1,6 +1,5 @@
-import { View, Text,ScrollView, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
+import { View, ScrollView, StyleSheet} from 'react-native'
 import React from 'react'
-import ButtonComponent from '../components/ButtonComponent'
 import CategoryButton from '../components/CategoryButton'
 import TextComponent from '../components/TextComponent'
 import { categories } from '../assets/data/categories'
@@ -12,7 +11,7 @@ const HomeScreen = () => {
   return (
       <View style={styles.container}>
         <View style={styles.categoryContainer}>
-            <TextComponent size='18' textAlign='left' style={{ paddingLeft: 10 }}  >Categorias</TextComponent>
+            <TextComponent size='18' textAlign='left' style={{ paddingLeft: 10 }}  >Categoriashgfhgfhjfh</TextComponent>
             <ScrollView 
                 horizontal 
                 showsHorizontalScrollIndicator={false} 
@@ -31,7 +30,6 @@ const HomeScreen = () => {
                 )}
             </ScrollView>
         </View>
-        {/* <TouchableOpacity> */}
             <ScrollView>
                 <View style={styles.containerCard}>
                     {movies.map((item) => (
@@ -43,7 +41,6 @@ const HomeScreen = () => {
                     ))}
                 </View>
             </ScrollView>   
-        {/* </TouchableOpacity> */}
       </View>
 
   )
