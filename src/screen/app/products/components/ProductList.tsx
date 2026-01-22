@@ -4,8 +4,7 @@ import { View, Text, FlatList, StyleSheet, Image, useWindowDimensions } from 're
 
 export default function ProductsList({products}: {products: Product[]}) {
   const { width } = useWindowDimensions();
-
-  const numColumns = Math.floor(width / 160); 
+  const numColumns = Math.max(1, Math.floor(width / 160));
   const cardWidth = width / numColumns - 12; 
 
   return (
@@ -17,11 +16,15 @@ export default function ProductsList({products}: {products: Product[]}) {
         contentContainerStyle={{ padding: 6 }}
         renderItem={({ item }) => (
           <View style={[styles.card, { width: cardWidth }]}>
-            <Image source={{ uri: item.image }} style={styles.image} resizeMode="contain" />
+            <Image 
+              source={{ 
+                uri:  item.imageUrl ?? 'https://core-docs.s3.amazonaws.com/murray_county_central_schools_ar/article/image/large_66f00638-2227-4795-84cc-8cefe4e4fb75.png'
+                }} 
+                style={styles.image} resizeMode="contain" />
             <View style={styles.info}>
               <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.category}>{item.categoryId}</Text>
-              <Text style={styles.price}>Bs {item.salePrice}</Text>
+              <Text style={styles.category}>{item.categorie.name}</Text>
+              <Text style={styles.price}>Bs {item.price}</Text>
               <Text style={styles.stock}>Stock: {item.stock}</Text>
             </View>
           </View>

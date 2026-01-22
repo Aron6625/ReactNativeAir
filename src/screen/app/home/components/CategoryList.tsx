@@ -1,76 +1,46 @@
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React from 'react';
+import { ScrollView, View, StyleSheet } from 'react-native';
 
-import { useAppDispatch, useAppSelector } from '@app/hooks/redux.hook';
-import { categoryActions, getCategoriesService } from '@app/store/slices/categories';
+import CategoryButton from '@app/components/CategoryButton';
+import TextComponent from '@app/components/TextComponent';
 
-import CategoryBtn from '@app/components/molecules/CategoryBtn'
-
-import { ICategory } from '@app/types';
-import { colors } from '@app/theme/colors';
+import { categories } from '@app/assets/data/categories';
 
 type Props = {
-  onChange?: (category: ICategory) => void
-  onPressAdd?: () => void;
-}
-
-const CategoriesList = (props: Props) => {
-  const dispatch = useAppDispatch();
-  const {categories, isLoading, selectedCategory} = useAppSelector(state => state.categories);
-
-  useEffect(() => {
-    dispatch(getCategoriesService())
-  }, [])
-  
-  const handleChangeCategory = (category: ICategory) => {
-    dispatch(categoryActions.setSelectedCategory(category));
-    props.onChange && props.onChange(category)
-  };
-
+  categoryActive: any;
+  onSelect: (category: any) => void;
+};
+function CategoryList({ categoryActive, onSelect }: Props) {
   return (
-    <ScrollView
-      horizontal={true}
-      contentContainerStyle={styles.categoriesContent}
-      showsHorizontalScrollIndicator={false}
-    >
-      {isLoading ? (
-        <ActivityIndicator color={colors.primary} size={50} />
-      ) : (
-        <>
-          {categories.map(category => (
-            <CategoryBtn
-              key={category.id}
-              color={category.color}
-              icon={category.icon}
-              name={category.name}
-              isActive={(category.id === selectedCategory?.id) || false}
-              onPress={() => {
-                handleChangeCategory(category)
-              }}
-            />
-          ))}
-          <CategoryBtn
-            key={9999}
-            color={'green'}
-            icon={'add-circle'}
-            name={'Crear categoria'}
-            isActive={(9999 === selectedCategory?.id) || false}
-            onPress={props.onPressAdd}
-          />
-        </>
-      )
-    }
-    </ScrollView>
+    <View style={styles.container}>
+            <ScrollView 
+                horizontal 
+                showsHorizontalScrollIndicator={false} 
+                style={{padding: 10}}>
+                {categories.map((category) =>
+                    <CategoryButton 
+                        key={category.id}
+                        color={category.color}
+                        icon={category.icon}
+                        name={category.name}
+                        isActive={category.id === categoryActive?.id}
+                        onPress={() => {
+                            onSelect(category)
+                        }}
+                    />
+                )}
+            </ScrollView>
+    </View>
   )
 }
 
-export default CategoriesList
+export default CategoryList;
 
 const styles = StyleSheet.create({
-  categoriesContent: {
-    // flexDirection: 'row',
-    // justifyContent:'space-around',
-    paddingHorizontal: 20,
-    gap: 20,
+  container: {
+    marginTop: 20,
   },
-})
+  scroll: {
+    padding: 10,
+  },
+});

@@ -1,77 +1,47 @@
-import { Dimensions, Pressable, ScrollView, StyleSheet, View } from 'react-native'
-import React from 'react'
-import IonIcon from 'react-native-vector-icons/Ionicons'
+import { View, StyleSheet} from 'react-native'
+import React, { useEffect } from 'react'
+import CategoryList from './components/CategoryList'
+import ProductsList from '../products/components/ProductList'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState, AppDispatch } from '@app/store/store';
+import { fetchProducts } from '@app/store/slices/products/products.thunks'
 
-import SectionContainer from '@app/components/molecules/SectionContainer';
-import CategoriesList from './components/CategoriesList';
-import EventList from './components/EventList';
-
-import { colors } from '@app/themes/colors';
-import { NavigationProp } from '@react-navigation/native';
-import { HomeStackParamList } from '@app/routes/HomeStackNavigation';
-import normalize from '@app/utils/normalize';
-import ScreenView from '@app/components/molecules/ScreenView';
-
-type Props = {
-  navigation: NavigationProp<HomeStackParamList>
-}
-
-const HomeScreen = (props: Props) => {
-  const handleAddCategory = () => {
-    console.log('add category')
-    props.navigation.navigate('CREATE_CATEGORY')
-  };
-
-  const handleGoToAddEvent = () => {
-    props.navigation.navigate('CREATE_EVENT_SCREEN')
-  }
-
+const HomeScreen = () => {
+    const dispatch = useDispatch<AppDispatch>();
+    const [categoryActive, setCategoryActive] = React.useState<any>(null);
+    const {products, isLoading} = useSelector(
+        (state: RootState) => state.products
+    );
+    console.log('🧪 PRODUCTS FROM STORE:', products);
+    useEffect(() =>{
+        dispatch(fetchProducts());
+    }, []);
   return (
-    <View style={styles.container}>
-      <ScreenView>
-        <SectionContainer title='Categorías'>
-          <CategoriesList onPressAdd={handleAddCategory}  />
-        </SectionContainer>
-
-        <SectionContainer title='Películas'>
-          <EventList />
-        </SectionContainer>
-
-      </ScreenView>
-        <Pressable
-          style={styles.addIconContainer}
-          onPress={handleGoToAddEvent}
-        >
-          <IonIcon
-            name="add-circle"
-            style={ styles.addIcon}
-          />
-        </Pressable>
-    </View>
+      <View style={styles.container}>
+        <CategoryList
+            categoryActive={categoryActive}
+            onSelect={setCategoryActive}
+        />
+        <ProductsList
+            products={products}
+        />
+      </View>
   )
 }
-
 export default HomeScreen
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    display: 'flex',
-    // flexDirection: 'column',
-    // backgroundColor: colors.white,
-  },
-  // content: {
-  //   paddingVertical: 20,
-  //   paddingHorizontal: 10,
-  // },
-  addIconContainer: {
-    position: 'absolute',
-    // top: Dimensions.get('screen').height - 220,
-    bottom: 20,
-    right: 20,
-  },
-  addIcon: {
-    fontSize: normalize(60),
-    color: colors.primary,
-  },
-});
+    container: {
+        flex: 1,
+    },
+    categoryContainer: {
+        marginTop: 20,
+    },
+    containerCard: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        padding: 10,
+    }
+
+})

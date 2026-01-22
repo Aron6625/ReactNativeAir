@@ -3,7 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // import CreateCategoryScreen from '@app/screens/app/home/CreateCategoryScreen';
-import HomeScreen from '@app/screen/HomeScreen';
+import HomeScreen from '@app/screen/app/home/HomeScreen';
 // import CreateEventScreen from '@app/screens/app/home/CreateEventScreen';
 
 export type HomeStackParamList = {

@@ -1,23 +1,39 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {Product} from "@app/types/product.type";
-import { Products } from "@app/assets/data/products";
-type EventsSliceState = {
-    products: Product[]
+
+import { createSlice } from '@reduxjs/toolkit';
+import { getProducts } from './products.thunks';
+import { Product } from '@app/types';
+
+type ProductSliceState = {
+    products: Product[];
+    isLoading: boolean;
+    error: string | null;
 };
-const initialState: EventsSliceState = {
-    products: Products,
+const initialState: ProductSliceState = {
+    products: [],
+    isLoading: false,
+    error: null,
 }
 
 export const productSlice = createSlice({
     name: 'product',
     initialState,
-    reducers: {
-        addProduct(state, action: PayloadAction<Product>){
-            state.products.push(action.payload)
-        },
-    }
+    reducers: {},
+    extraReducers: builder => {
+        builder
+        .addCase(getProducts.pending, state => {
+            state.isLoading = true;
+        })
+        .addCase(getProducts.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.products = action.payload;
+        })
+        .addCase(getProducts.rejected, (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload as string;
+        });
+        
+    },
 })
 
-export const { addProduct } = productSlice.actions;
 
 export default productSlice.reducer;
