@@ -43,7 +43,24 @@ export const updateProduct = createAsyncThunk(
     'products/update',
     async ({id, updates }: {id: string; updates: Partial<Product>}, { rejectWithValue }) => {
       try  {
-        const response = await fetch(`${ENV.API_URL}/product `)
+        const response = await fetch(`${ENV.API_URL}/product/${id}`, {
+          method: 'PUT',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(updates),
+        });
+        if (!response.ok){
+            throw new Error(`Server error: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+        
+      } catch (error: any) {
+        return rejectWithValue(error.message);
       }
     }
-)
+);
+
+export const deleteProduct = createAsyncThunk(
+  'product/delete',
+  async ({id,delete}:{id: string; delete:})
+);
